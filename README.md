@@ -6,7 +6,8 @@ Este repositório contém um fórum desenvolvido em Django, criado como prova de
 No desenvolvimento da plataforma, foram implementadas e analisadas diversas práticas de acessibilidade, permitindo testar sua viabilidade e impacto na experiência do usuário.
 
 ## Tecnologias utilizadas
-- Django
+- Django 5.1.6
+- Postgres 15
 - Bootstrap 5
 - Docker
 
