@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Iniciar a aplicação
+python manage.py migrate
+python manage.py runserver 0.0.0.0:${APPLICATION_PORT}

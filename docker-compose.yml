@@ -1,0 +1,31 @@
+name: inclusify
+services:
+  application:
+    container_name: web_inclusify
+    build:
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:${APPLICATION_PORT}
+    ports:
+      - "${APPLICATION_EXTERNAL_PORT}:${APPLICATION_PORT}"
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    depends_on:
+      - database
+
+  database:
+    container_name: db_inclusify
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '${DB_PORT_EXTERNAL}:${DB_PORT}'
+
+volumes:
+  postgres_data:
