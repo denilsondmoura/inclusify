@@ -1,4 +1,4 @@
-# inclusify
+# Inclusify
 
 ## Fórum Acessível – Prova de Conceito
 Este repositório contém um fórum desenvolvido em Django, criado como prova de conceito para embasar meu Trabalho de Conclusão de Curso (TCC) em Ciência da Computação. O objetivo do projeto foi avaliar a aplicabilidade das diretrizes de acessibilidade web da WCAG (Web Content Accessibility Guidelines), com foco específico nas diretrizes que impactam usuários cegos e de baixa visão.
@@ -6,7 +6,8 @@ Este repositório contém um fórum desenvolvido em Django, criado como prova de
 No desenvolvimento da plataforma, foram implementadas e analisadas diversas práticas de acessibilidade, permitindo testar sua viabilidade e impacto na experiência do usuário.
 
 ## Tecnologias utilizadas
-- Django
+- Django 5.1.6
+- Postgres 15
 - Bootstrap 5
 - Docker
 
