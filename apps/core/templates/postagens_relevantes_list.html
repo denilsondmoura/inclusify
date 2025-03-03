@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <ol>
+    <li><a href="{% url 'postagem_detail' 1 %}">postagem</a></li>
+    <li><a href="{% url 'postagem_detail' 2 %}">postagem</a></li>
+    <li><a href="{% url 'postagem_detail' 3 %}">postagem</a></li>
+    <li><a href="{% url 'postagem_detail' 4 %}">postagem</a></li>
+  </ol>
+  
+{% endblock content %}

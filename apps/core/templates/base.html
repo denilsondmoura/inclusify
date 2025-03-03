@@ -7,10 +7,21 @@
 </head>
 <body>
 <main class="container">
-    Teste
+    Inclusify - 
+    <a href="{% url 'postagens_relevantes_list' %}">Relevantes</a> - 
+    <a href="{% url 'postagens_recentes_list' %}">Recentes</a> - 
+    <a href="{% url 'topicos_list' %}">Tópicos</a>
+
+    <div class="float-right">
+        <a href="{% url 'postagem_create' %}">Nova Postagem</a>
+        <a href="{% url 'accounts:profile_detail' %}">Perfil</a>
+        <a href="{% url 'accounts:logout' %}">Sair</a>
+    </div>
     {% block content %}
 
     {% endblock content %}
+
+    rodapé
 </main>
 </body>
 </html>

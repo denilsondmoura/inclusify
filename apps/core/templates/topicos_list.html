@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <ol>
+    <li><a href="{% url 'topico_postagens_list' 1 %}">topico</a></li>
+    <li><a href="{% url 'topico_postagens_list' 2 %}">topico</a></li>
+    <li><a href="{% url 'topico_postagens_list' 3 %}">topico</a></li>
+    <li><a href="{% url 'topico_postagens_list' 4 %}">topico</a></li>
+  </ol>
+  
+{% endblock content %}
