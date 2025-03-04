@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from .forms import CustomUserCreationForm
+from .forms import ProfileCreationForm
+from .models import Profile
 
 
 class AccountLoginView(LoginView):
@@ -25,11 +26,11 @@ class AccountLoginView(LoginView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('postagens_recentes_list')
+        return reverse_lazy('postagens_relevantes_list')
     
 class AccountRegisterView(CreateView):
-    model = User
-    form_class = CustomUserCreationForm
+    model = Profile
+    form_class = ProfileCreationForm
     template_name = "registration/account_register.html"
     
     def form_valid(self, form):

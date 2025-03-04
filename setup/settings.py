@@ -148,3 +148,10 @@ EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 DEFAULT_FROM_EMAIL = str(os.getenv('DEFAULT_FROM_EMAIL'))
 
 LOGOUT_REDIRECT_URL =  "accounts/login/"
+LOGIN_REDIRECT_URL = "/"
+
+AUTH_USER_MODEL = "accounts.Profile"
+
+MEDIA_ROOT = BASE_DIR / "media"
+
+MEDIA_URL = "/media/"

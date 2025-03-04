@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import Profile
 
-class CustomUserCreationForm(UserCreationForm):
+class ProfileCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)  # Adicionando o email como campo obrigatório
 
     class Meta:
-        model = User
+        model = Profile
         fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
