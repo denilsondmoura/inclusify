@@ -36,7 +36,7 @@ media_cgeo-old/*
 # Arquivos que não devem subir para o repositório (Mateus 2023-05-15 19:20)
 media_cgeo/
 static_cgeo_app/
-static/
+
 staticfiles/
 
 # Migrations que causa problemas
