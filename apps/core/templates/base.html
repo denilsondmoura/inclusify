@@ -1,33 +1,128 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Inclusify</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inclusify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'ADLaM Display', sans-serif;
+    }
+    .dropdown-menu {
+      min-width: 200px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dropdown-item {
+      font-size: 14px;
+    }
+    
+    .dropdown-item:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .btn-dark {
+      background-color: #011627;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-<main class="container">
-    <a href="{% url 'postagens_relevantes_list' %}">Inclusify</a> - 
-    <a href="{% url 'postagens_relevantes_list' %}">Relevantes</a> - 
-    <a href="{% url 'postagens_recentes_list' %}">Recentes</a> - 
-    <a href="{% url 'topicos_list' %}">Tópicos</a>
+  <header>
+    <!-- Navbar com classes do Bootstrap e nova cor de fundo (bg-primary) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="container">
+        <a class="navbar-brand text-white" href="{% url 'postagens_relevantes_list' %}">
+          <img src="{% static 'img/logo.svg'%}" width="30" alt="Logo do Inclusify"/> Inclusify
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'postagens_relevantes_list' %}">Relevantes</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'postagens_recentes_list' %}">Recentes</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'topicos_list' %}">Tópicos</a>
+              </li>
+          </ul>
 
-    <div class="float-right">
-        {% if user.is_authenticated %}
-            <a href="{% url 'postagem_create' %}">Nova Postagem</a>
-            <a href="{% url 'accounts:profile_detail' %}">Perfil</a>
-            <a href="{% url 'accounts:logout' %}">Sair</a>
-        {% else %}
-            <a href="{% url 'accounts:login' %}">Logar</a>
-            <a href="{% url 'accounts:register' %}">Registrar-se</a>
-        {% endif %}
+          {% if user.is_authenticated %}
+            <div class="dropdown">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="menuDropdown" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                ☰
+              </button>
+              <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="menuDropdown">
+                <a class="dropdown-item" href="{% url 'postagem_create' %}"><strong>Nova Postagem</strong></a>
+                <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}"><strong>Minhas Postagens</strong></a>
+                <a class="dropdown-item" href="#"><strong>Editar Perfil</strong></a>
+                <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><strong>Sair</strong></a>
+                <div class="dropdown-divider"></div>
+                
+                <!-- Modo escuro e acessibilidade -->
+                <div class="d-flex justify-content-between align-items-center p-2">
+                    <button class="btn btn-outline-dark" onclick="toggleTheme()">
+                        🌞 Auto | 🌙
+                    </button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center p-2">
+                  <button class="btn btn-outline-dark">-A</button>
+                  <button class="btn btn-dark">Auto</button>
+                  <button class="btn btn-outline-dark">+A</button>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <a class="nav-link text-white" href="{% url 'accounts:login' %}">Logar</a>
+              <a class="nav-link text-white" href="{% url 'accounts:register' %}">Registrar-se</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </header>
 
-    </div>
+  <!-- Conteúdo principal -->
+  <main class="container mt-4">
     {% block content %}
-
     {% endblock content %}
+  </main>
 
-    rodapé
-</main>
+  <!-- Rodapé -->
+  <footer class="bg-dark py-3 mt-4">
+    <div class="container text-center">
+      <span class="text-white">Inclusify &copy; 2025. All rights reserved</span><br>
+      <span class="text-white">Made with &#9829; by Denilson D. Moura</span>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle (inclui Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+
+  <style>
+    .dark-mode {
+      background-color: #011627;
+      color: white;
+    }
+  </style>
 </body>
 </html>

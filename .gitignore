@@ -37,6 +37,7 @@ media_cgeo-old/*
 media_cgeo/
 static_cgeo_app/
 static/
+staticfiles/
 
 # Migrations que causa problemas
 #projeto/cartorio/migrations/0045_delete_comunicacaoceripi.py
