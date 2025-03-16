@@ -15,21 +15,9 @@
     body {
       font-family: 'ADLaM Display', sans-serif;
     }
-    .dropdown-menu {
-      min-width: 200px;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    .dropdown-item {
-      font-size: 14px;
-    }
-    
-    .dropdown-item:hover {
-      background-color: #f8f9fa;
-    }
-    
+    .dropdown-toggle::after {
+      display: none;
+    }    
     .btn-dark {
       background-color: #011627;
       color: white;
@@ -38,14 +26,14 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <a class="navbar-brand text-white" href="{% url 'postagens_relevantes_list' %}">
           <img src="{% static 'img/logo.svg'%}" width="30" alt="Logo do Inclusify"/> Inclusify
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon text-white"></span>
         </button>
         <div class="collapse navbar-collapse float-right" id="navbarNav">
           <ul class="navbar-nav me-auto">
@@ -60,41 +48,84 @@
               </li>
           </ul>
           {% if user.is_authenticated %}
-            <div class="dropdown">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                ☰
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <a class="dropdown-item" href="{% url 'postagem_create' %}"><strong>Nova Postagem</strong></a>
+            <!-- Exibe o dropdown em telas médias ou maiores -->
+            <div class="d-none d-lg-block">
+              <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  ☰
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'postagem_create' %}"><strong>Nova Postagem</strong></a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}"><strong>Minhas Postagens</strong></a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'accounts:profile_edit' %}"><strong>Editar Perfil</strong></a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><strong>Sair</strong></a>
+                  </li>
+                  <li>
+                    <div class="dropdown-item btn-group" role="group" aria-label="Grupo de botões para alterar a paleta de cores do site">
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌞</button>
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">Auto</button>
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌙</button>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="dropdown-item btn-group" role="group" aria-label="Grupo de botões para alterar o tamanho da fonte do site">
+                      <button type="button" class="btn btn-dark">-A</button>
+                      <button type="button" class="btn btn-dark">Auto</button>
+                      <button type="button" class="btn btn-dark">+A</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Exibe a listagem simples em telas pequenas -->
+            <div class="d-lg-none">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'postagem_create' %}">Nova Postagem</a>
                 </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}"><strong>Minhas Postagens</strong></a>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'accounts:profile_detail' %}">Minhas Postagens</a>
                 </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'accounts:profile_edit' %}"><strong>Editar Perfil</strong></a>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="{% url 'accounts:profile_edit' %}">Editar Perfil</a>
                 </li>
-                <li>
-                  <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><strong>Sair</strong></a>
+                <li class="nav-item">
+                  <a class="nav-link text-danger" href="{% url 'accounts:logout' %}">Sair</a>
                 </li>
-                <li>
-                  <div class="dropdown-divider"></div>
+                <li class="nav-item">
+                  <div class="btn-group" role="group" aria-label="Grupo de botões para alterar a paleta de cores do site">
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌞</button>
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">Auto</button>
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌙</button>
+                  </div>
                 </li>
-                <div class="d-flex justify-content-between align-items-center p-2">
-                  <button class="btn btn-outline-dark" onclick="toggleTheme()">
-                      🌞 Auto | 🌙
-                  </button>
-                </div>
-                <div class="d-flex justify-content-between align-items-center p-2">
-                  <button class="btn btn-outline-dark">-A</button>
-                  <button class="btn btn-dark">Auto</button>
-                  <button class="btn btn-outline-dark">+A</button>
-                </div>
+
+                <li class="nav-item">
+                  <div class="btn-group" role="group" aria-label="Grupo de botões para alterar o tamanho da fonte do site">
+                    <button type="button" class="btn btn-dark">-A</button>
+                    <button type="button" class="btn btn-dark">Auto</button>
+                    <button type="button" class="btn btn-dark">+A</button>
+                  </div>
+                </li>
               </ul>
             </div>
           {% else %}
-            <a class="nav-link text-white mx-2" href="{% url 'accounts:login' %}">Logar</a>
-            <a class="nav-link text-white mx-2" href="{% url 'accounts:register' %}">Registrar-se</a>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'accounts:login' %}">Logar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'accounts:register' %}">Registrar-se</a>
+              </li>
+            </ul>
           {% endif %}
         </div>
       </div>
@@ -108,8 +139,8 @@
 
   <footer class="bg-dark py-3 mt-auto">
     <div class="container text-center">
-      <span class="text-white">Inclusify &copy; 2025. All rights reserved</span><br>
-      <span class="text-white">Made with &#9829; by Denilson D. Moura</span>
+      <span class="text-white"><small>Inclusify &copy; 2025. All rights reserved</small></span><br>
+      <span class="text-white"><small>Made with &#9829; by Denilson D. Moura</small></span>
     </div>
   </footer>
 
