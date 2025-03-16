@@ -36,9 +36,8 @@
     }
   </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
   <header>
-    <!-- Navbar com classes do Bootstrap e nova cor de fundo (bg-primary) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
       <div class="container">
         <a class="navbar-brand text-white" href="{% url 'postagens_relevantes_list' %}">
@@ -48,8 +47,8 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse float-right" id="navbarNav">
+          <ul class="navbar-nav me-auto">
               <li class="nav-item">
                   <a class="nav-link text-white" href="{% url 'postagens_relevantes_list' %}">Relevantes</a>
               </li>
@@ -60,50 +59,54 @@
                   <a class="nav-link text-white" href="{% url 'topicos_list' %}">Tópicos</a>
               </li>
           </ul>
-
           {% if user.is_authenticated %}
             <div class="dropdown">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="menuDropdown" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 ☰
               </button>
-              <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="menuDropdown">
-                <a class="dropdown-item" href="{% url 'postagem_create' %}"><strong>Nova Postagem</strong></a>
-                <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}"><strong>Minhas Postagens</strong></a>
-                <a class="dropdown-item" href="#"><strong>Editar Perfil</strong></a>
-                <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><strong>Sair</strong></a>
-                <div class="dropdown-divider"></div>
-                
-                <!-- Modo escuro e acessibilidade -->
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <a class="dropdown-item" href="{% url 'postagem_create' %}"><strong>Nova Postagem</strong></a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'accounts:profile_detail' %}"><strong>Minhas Postagens</strong></a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'accounts:profile_edit' %}"><strong>Editar Perfil</strong></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><strong>Sair</strong></a>
+                </li>
+                <li>
+                  <div class="dropdown-divider"></div>
+                </li>
                 <div class="d-flex justify-content-between align-items-center p-2">
-                    <button class="btn btn-outline-dark" onclick="toggleTheme()">
-                        🌞 Auto | 🌙
-                    </button>
+                  <button class="btn btn-outline-dark" onclick="toggleTheme()">
+                      🌞 Auto | 🌙
+                  </button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center p-2">
                   <button class="btn btn-outline-dark">-A</button>
                   <button class="btn btn-dark">Auto</button>
                   <button class="btn btn-outline-dark">+A</button>
                 </div>
-              </div>
+              </ul>
             </div>
           {% else %}
-            <a class="nav-link text-white" href="{% url 'accounts:login' %}">Logar</a>
-              <a class="nav-link text-white" href="{% url 'accounts:register' %}">Registrar-se</a>
+            <a class="nav-link text-white mx-2" href="{% url 'accounts:login' %}">Logar</a>
+            <a class="nav-link text-white mx-2" href="{% url 'accounts:register' %}">Registrar-se</a>
           {% endif %}
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- Conteúdo principal -->
-  <main class="container mt-4">
+  <main class="container mt-4 h-100">
     {% block content %}
     {% endblock content %}
   </main>
 
-  <!-- Rodapé -->
-  <footer class="bg-dark py-3 mt-4">
+  <footer class="bg-dark py-3 mt-auto">
     <div class="container text-center">
       <span class="text-white">Inclusify &copy; 2025. All rights reserved</span><br>
       <span class="text-white">Made with &#9829; by Denilson D. Moura</span>
