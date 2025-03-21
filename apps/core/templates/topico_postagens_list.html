@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ title }}</h1>
 
-  <ol>
-    <li><a href="{% url 'postagem_detail' 1 %}">postagem</a></li>
-    <li><a href="{% url 'postagem_detail' 2 %}">postagem</a></li>
-    <li><a href="{% url 'postagem_detail' 3 %}">postagem</a></li>
-    <li><a href="{% url 'postagem_detail' 4 %}">postagem</a></li>
-  </ol>
+<section class="list-group" role="list" aria-labelledby="postagens-titulo">
+  <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
+
+  {% for object in page_obj.object_list %}
+    {% include "partials/postagem_list_item.html" %}
+  {% empty %}
+    <p class="text-muted">Nenhuma postagem disponível no momento.</p>
+  {% endfor %}
+</section>
+{% include "partials/paginacao.html" %}
   
 {% endblock content %}

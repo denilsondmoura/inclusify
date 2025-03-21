@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ title }}</h1>
 
-  <ol>
-    <li><a href="{% url 'topico_postagens_list' 1 %}">topico</a></li>
-    <li><a href="{% url 'topico_postagens_list' 2 %}">topico</a></li>
-    <li><a href="{% url 'topico_postagens_list' 3 %}">topico</a></li>
-    <li><a href="{% url 'topico_postagens_list' 4 %}">topico</a></li>
-  </ol>
+<section class="list-group" role="list" aria-labelledby="postagens-titulo">
+  <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for object in page_obj.object_list %}
+      {% include "partials/topico_list_item.html" %}
+    {% empty %}
+      <p class="text-muted">Nenhum tópico disponível no momento.</p>
+    {% endfor %}
+  </div>
+</section>
+{% include "partials/paginacao.html" %}
   
 {% endblock content %}

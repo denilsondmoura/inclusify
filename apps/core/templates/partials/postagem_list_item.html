@@ -1,0 +1,24 @@
+<article
+    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center rounded-2 mb-2 px-4"
+    role="listitem">
+    <a href="{% url 'postagem_detail' object.id %}" class="text-decoration-none text-dark"
+        aria-label="Ler mais sobre {{ object.titulo }}">
+        <div>
+            <h2 class="h5 mb-1">
+                {{ page_obj.start_index|add:forloop.counter|add:-1 }}. {{ object.titulo }}
+            </h2>
+            <p class="text-muted small mb-1">
+                <span aria-hidden="true"><i class="fas fa-arrow-alt-circle-up"></i></span> <span
+                    aria-label="Up Votes">{{ object.upvotes_count }}</span>
+                <span class="ms-2" aria-hidden="true"><i class="fas fa-arrow-alt-circle-down"></i></span> <span
+                    class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>•
+                <span class="mx-2" aria-label="Comentários">{{ object.comentarios_count }} comentários</span>•
+                <span class="mx-2" aria-label="Autor">{{ object.created_by.nome_publico }}</span> •
+                <time class="mx-2" datetime="{{ object.created_at|date:'Y-m-d' }}"
+                    aria-label="Publicado há {{ object.created_at|timesince }}">
+                    {{ object.created_at|timesince }} atrás
+                </time>
+            </p>
+        </div>
+    </a>
+</article>

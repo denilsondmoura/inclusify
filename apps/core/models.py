@@ -4,10 +4,15 @@ from .mixins import AuditMixin
         
 class Topico(AuditMixin):
     nome = models.CharField(max_length=100)
-    descricao = models.TextField()
+    descricao = models.TextField(max_length=250)
 
     def __str__(self):
         return self.nome
+    
+    @property
+    def post_count(self):
+        # TODO: Implementar calculo
+        return 165
 
 
 class Postagem(AuditMixin):
@@ -22,6 +27,23 @@ class Postagem(AuditMixin):
 
     def __str__(self):
         return self.titulo
+    
+    @property
+    def upvotes_count(self):
+        # TODO: Implementar calculo
+        return 11
+    
+    @property
+    def downvotes_count(self):
+        # TODO: Implementar calculo
+        return 5
+    
+    @property
+    def comentarios_count(self):
+        # TODO: Implementar calculo
+        return 9
+    
+    
 
 
 class Comentario(AuditMixin):

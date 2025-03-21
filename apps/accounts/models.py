@@ -13,9 +13,9 @@ class Profile(AbstractUser):
     # Substitui o campo username pelo email como identificador principal (opcional)
     # Se quiser usar o email como principal login:
     # username = None
-    # email = models.EmailField("email address", unique=True)
+    # email = models.EmailField("email address", unique=True)s
 
-    nome_publico = models.CharField(max_length=150, blank=True, null=True)
+    nome_publico = models.CharField(max_length=150, blank=False, null=False)
     foto = models.ImageField(upload_to="fotos_perfil/", blank=True, null=True)
     descricao_perfil = models.TextField(blank=True, null=True)
     theme = models.CharField(max_length=50, choices=THEME_CHOICES, default="light")
@@ -28,4 +28,4 @@ class Profile(AbstractUser):
     # REQUIRED_FIELDS = []  # Campos obrigatórios além do email para criar superuser
 
     def __str__(self):
-        return self.email if self.email else self.username
+        return self.nome_publico
