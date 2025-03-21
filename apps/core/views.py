@@ -74,7 +74,7 @@ class TopicosListView(ListView):
 
     template_name = 'topicos_list.html'
     model = Topico
-    paginate_by = 9
+    paginate_by = 12
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<section class="list-group" role="list" aria-labelledby="postagens-titulo">
-  <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for object in page_obj.object_list %}
-      {% include "partials/topico_list_item.html" %}
-    {% empty %}
-      <p class="text-muted">Nenhum tópico disponível no momento.</p>
-    {% endfor %}
+  <div class="container">
+    <section class="list-group" role="list" aria-labelledby="postagens-titulo">
+      <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for object in page_obj.object_list %}
+          {% include "partials/topico_list_item.html" %}
+        {% empty %}
+          <p class="text-muted">Nenhum tópico disponível no momento.</p>
+        {% endfor %}
+      </div>
+    </section>
+    {% include "partials/paginacao.html" %}
   </div>
-</section>
-{% include "partials/paginacao.html" %}
-  
 {% endblock content %}

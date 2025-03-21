@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<section class="list-group" role="list" aria-labelledby="postagens-titulo">
-  <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
-
-  {% for object in page_obj.object_list %}
-    {% include "partials/postagem_list_item.html" %}
-  {% empty %}
-    <p class="text-muted">Nenhuma postagem disponível no momento.</p>
-  {% endfor %}
-</section>
-{% include "partials/paginacao.html" %}
-  
+  <div class="container">
+    <section class="list-group" role="list" aria-labelledby="postagens-titulo">
+      <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
+    
+      {% for object in page_obj.object_list %}
+        {% include "partials/postagem_list_item.html" %}
+      {% empty %}
+        <p class="text-muted">Nenhuma postagem disponível no momento.</p>
+      {% endfor %}
+    </section>
+    {% include "partials/paginacao.html" %}
+  </div>
 {% endblock content %}

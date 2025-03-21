@@ -1,9 +1,9 @@
-<div class="col-md-4 mb-4 ">
+<div class="col-md-4 mb-4">
     <a href="{% url 'topico_postagens_list' object.id %}" class="text-decoration-none text-dark"
         aria-label="Ver postagens sobre {{ object.titulo }}">
         <div class="card" role="article" aria-label="{{ object.nome }}">
             <div class="card-body">
-                <h2 class="card-title">{{ object.nome }}</h2>
+                <h4 class="card-title">{{ object.nome }}</h4>
                 <p class="card-text">{{ object.descricao }}</p>
                 <p class="card-text"><small class="text-muted ms-auto">{{ object.post_count }} postagens</small></p>
             </div>
