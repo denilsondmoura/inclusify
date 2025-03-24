@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import (
     FormView,
     ListView, CreateView, UpdateView,
     TemplateView, DetailView, DeleteView, 
 )
 from .models import Postagem, Topico
+from .forms import PostagemForm
+
 
 class PostagensRelevantesListView(ListView):
 
@@ -30,29 +33,44 @@ class PostagensRecentesListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = super().get_queryset().order_by('created_at')
+        queryset = super().get_queryset().order_by('-created_at')
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Recentes'
         return context
-    
+
 class PostagemCreateView(LoginRequiredMixin, CreateView):
-
-    template_name = 'postagem_form.html'
     model = Postagem
-    paginate_by = 10
-    ordering = 'id',
+    form_class = PostagemForm
+    template_name = "postagem_form.html"
+    success_url = reverse_lazy('postagens_recentes_list')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
-
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        return response 
+    
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Criar Postagem'
+        context['title'] = 'Criar nova postagem'
         return context
+    
+# class PostagemCreateView(LoginRequiredMixin, CreateView):
+
+#     template_name = 'postagem_form.html'
+#     model = Postagem
+#     paginate_by = 10
+#     ordering = 'id',
+
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         return queryset
+
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Criar Postagem'
+#         return context
     
 class PostagemDetailView(DetailView):
 

@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
-    'apps.accounts'
+    'apps.accounts',
+    'widget_tweaks',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +159,26 @@ AUTH_USER_MODEL = "accounts.Profile"
 MEDIA_ROOT = BASE_DIR / "media"
 
 MEDIA_URL = "/media/"
+
+# Configuração do Summernote
+SUMMERNOTE_CONFIG = {
+    'width': '100%',  # Definindo largura para 100%
+    'height': '400',  # Definindo altura (em pixels)
+    'upload_to': 'uploads/summernote/',  # Caminho para onde as imagens serão salvas
+    'image_upload': True,  # Permite o upload de imagens
+    'attachment_upload': True,  # Permite o upload de outros tipos de anexos
+    # 'toolbar': [
+    #     ['style', ['bold', 'italic', 'underline', 'clear']],
+    #     ['font', ['strikethrough', 'superscript', 'subscript']],
+    #     ['para', ['ul', 'ol', 'paragraph']],
+    #     ['table', ['table']],
+    #     ['insert', ['link', 'picture']],
+    #     ['view', ['fullscreen', 'codeview']],
+    # ],  # Personalizando a barra de ferramentas
+}
+
+# Limite máximo de upload de arquivos (em bytes)
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5 MB (ajuste conforme necessário)
+
+# Limite de tamanho de imagem para o Summernote
+SUMMERNOTE_UPLOAD_SIZE_LIMIT = 5242880  # 5 MB (ajuste conforme necessário)

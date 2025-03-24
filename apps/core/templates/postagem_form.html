@@ -1,8 +1,48 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
 
 {% block content %}
-  <h1>{{ title }}</h1>
+<link rel="stylesheet" href="{% static 'django_summernote/summernote-lite.css' %}">
+<script src="{% static 'django_summernote/summernote-lite.js' %}"></script>
 
-  Formulário <br>
-  
+<div class="container">
+  <style>
+    .note-editable {
+        width: 100% !important;
+    }
+
+    .note-holder {
+        width: 100% !important;
+    }
+
+    .note-toolbar {
+        width: 100% !important;
+    }
+  </style>
+
+  <section class="list-group" role="list" aria-labelledby="postagens-titulo">
+    <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>  
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="{{ form.titulo.id_for_label }}" class="form-label">Título</label>
+            {{ form.titulo|add_class:"form-control" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.topicos.id_for_label }}" class="form-label">Tópicos</label>
+            {{ form.topicos|add_class:"form-select" }}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.corpo.id_for_label }}" class="form-label">Corpo</label>
+            {{ form.corpo|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-dark">Publicar</button>
+    </form>
+  </section>
+</div>
+
 {% endblock content %}
