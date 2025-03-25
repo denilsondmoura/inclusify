@@ -4,32 +4,28 @@
 {% block content %}
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-lg-8 col-md-12">
         {% include "partials/postagem_comentario_avatar.html" %}
         <section class="border-start border-1 border-secondary px-4 ms-4">
           <article role="article">
             <header class="mb-5">
-              <h1 id="introduction" class="h2">Tutorial definitivo de Bootstrap 5</h1>
-              <nav>
-                <span class="badge bg-secondary">java</span>
+              <h1 id="introduction" class="h2">{{ object.titulo }}</h1>
+              <nav class="d-inline-block">
+                {% for topico in object.topicos.all %}
+                <a href="{% url 'topico_postagens_list' topico.id %}">
+                  <span class="badge bg-secondary me-1">{{ topico }}</span>
+                </a>  
+                {% endfor %}
               </nav>
             </header>
-            <p>
-              Nos últimos anos, a programação passou por uma transformação drástica. O que antes era um campo técnico, seletivo e altamente valorizado, agora se assemelha às práticas questionáveis do marketing digital. Proliferam cursos ensinando como criar e vender cursos, assim como vemos um número crescente de “empreendedores” lançando produtos SaaS (Software as a Service) genéricos e descartáveis, feitos quase que inteiramente por inteligência artificial.
-            </p>
-            
-            <p>
-              A explosão de ferramentas como ChatGPT, DeepSeek, Qwen e Grok reduziu significativamente a barreira técnica para o desenvolvimento de software. O que antes poderia custar dezenas de milhares de dólares e demandar meses de trabalho de uma equipe especializada, hoje pode ser gerado em questão de horas, muitas vezes sem um desenvolvedor real por trás. Isso levou à banalização do software.
-              Agora, qualquer ideia aparentemente rentável vira um SaaS: aplicativos de mapa astral, plataformas para vender cursos duvidosos ou soluções automatizadas para problemas que não existem. O objetivo raramente é a inovação ou a resolução de uma dor real do mercado, mas sim a captação de assinaturas e anúncios para gerar receita rápida.
-            </p>
-            <p>
-              O mais curioso é que, enquanto os custos de desenvolvimento despencam, a percepção de valor continua sendo uma ilusão para quem não entende a facilidade do processo atual. Aplicativos que antes eram orçados em centenas de milhares ou até milhões de dólares agora podem ser feitos quase de graça, mas ainda são vendidos como produtos premium para quem desconhece essa realidade.
-              Estamos vivendo uma era onde o software se tornou um commodity, e a diferenciação real está na execução e no marketing. Quem entender essa mudança saberá navegar nesse novo mercado. Já quem continuar acreditando que tecnologia por si só gera valor pode acabar investindo em placebos digitais.              
-            </p>
+            <div class="summernote-content">
+              {{ object.corpo|safe }}
+            </div>
           </article>
           {% include "partials/postagem_button_group.html" %}
-          {% include "partials/comentario.html" %}
-          {% include "partials/comentario.html" %}
+          {% for comentario in object.comentarios.all %}
+            {% include "partials/comentario.html" %}
+          {% endfor %}
         </section>
       </div>
     </div>

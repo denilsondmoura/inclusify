@@ -1,8 +1,18 @@
 
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
 <div class="mb-0 mt-2 d-inline-flex">
-    <button class="btn btn-outline-dark me-2">
+    <!-- Botão Responder que ativa o collapse -->
+    <button class="btn btn-outline-dark me-2" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}" 
+            aria-expanded="false" 
+            aria-controls="respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}">
         responder
     </button>
+    
+    <!-- Seus outros botões -->
     <button class="btn px-1 d-flex align-items-center" aria-hidden="true">
         <i class="fas fa-arrow-alt-circle-up fs-3"></i>
         <span class="mx-2" aria-label="Up Votes">{{ object.upvotes_count }}</span>
@@ -12,3 +22,56 @@
         <span class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>
     </button>
 </div>
+
+<!-- Área do formulário (inicialmente oculta) -->
+<div class="collapse mt-3" id="respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}">
+    {% if comentario %}
+        <form method="post" action="{% url 'postagem_comentario_responder' object.id comentario.id %}">
+    {% else %}
+        <form method="post" action="{% url 'postagem_responder' object.id %}">
+    {% endif %}
+        {% csrf_token %}        
+        <div class="mb-3">
+            <textarea id="summernote-editor-{{ object.id }}" class="form-control" name="conteudo" required></textarea>
+        </div>
+        
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-secondary me-2" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}">
+                Cancelar
+            </button>
+            <button type="submit" class="btn btn-dark">Enviar</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Inicializa o Summernote
+        $('#summernote-editor-{{ object.id }}').summernote({
+            placeholder: 'Digite sua resposta aqui...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+        
+        // Limpa o editor quando o formulário é fechado
+        $('[data-bs-target="#respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}"]').on('click', function() {
+            if (!$(this).hasClass('collapsed')) {
+                $('#summernote-editor-{{ object.id }}').summernote('reset');
+            }
+        });
+    });
+</script>

@@ -51,7 +51,9 @@ class Comentario(AuditMixin):
     postagem = models.ForeignKey(
         Postagem,
         on_delete=models.CASCADE,
-        related_name="comentarios"
+        related_name="comentarios",
+        null=True,
+        blank=True
     )
     parent_comment = models.ForeignKey(
         'self',
@@ -62,7 +64,10 @@ class Comentario(AuditMixin):
     )
 
     def __str__(self):
-        return f"Comentário de {self.created_by} em {self.postagem}"
+        if self.parent_comment:
+            return f"Resposta de {self.created_by} ao {self.parent_comment}"
+        else: 
+            return f"Comentário de {self.created_by} em {self.postagem}"
 
 
 class VotoPostagem(AuditMixin):
