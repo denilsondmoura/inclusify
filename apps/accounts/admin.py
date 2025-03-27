@@ -8,7 +8,7 @@ class ProfileAdmin(UserAdmin):
     # ajuste esses campos de acordo.
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Informações pessoais", {"fields": ("nome_publico", "foto", "descricao_perfil")}),
+        ("Informações pessoais", {"fields": ("username", "foto", "descricao_perfil")}),
         ("Permissões", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
         ("Datas importantes", {"fields": ("last_login", "date_joined")}),
         ("Preferências", {"fields": ("theme", "font_size")}),
@@ -16,9 +16,9 @@ class ProfileAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("email", "nome_publico", "password1", "password2", "theme", "font_size"),
+            "fields": ("email", "username", "password1", "password2", "theme", "font_size"),
         }),
     )
-    list_display = ("email", "nome_publico", "is_staff")
-    search_fields = ("email", "nome_publico")
-    ordering = ("nome_publico",)
+    list_display = ("email", "username", "is_staff")
+    search_fields = ("email", "username")
+    ordering = ("username",)

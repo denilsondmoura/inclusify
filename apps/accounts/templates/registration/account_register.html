@@ -1,10 +1,130 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Cadastro de Usuário</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-  </form>
+<div class="container mt-5 d-flex flex-column justify-content-center">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-8">
+      <section class="card shadow-sm" aria-labelledby="registerHeading">
+        <div class="card-header bg-dark text-white">
+          <h1 id="registerHeading" class="h4 mb-0 text-center">Registrar-se</h1>
+        </div>
+
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data" role="form" aria-label="Formulário de cadastro">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+              {{ error }}
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="row g-3">
+              <!-- Username -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="id_username" class="form-label">
+                    Nome de Usuário *
+                    <span class="text-muted fs-7">(máx. 150 caracteres)</span>
+                  </label>
+                  <input type="text" name="username" id="id_username"
+                    class="form-control {% if form.username.errors %}is-invalid{% endif %}" required maxlength="150"
+                    aria-describedby="usernameHelp">
+                  <div id="usernameHelp" class="form-text">
+                    Letras, números e @/./+/-/_ apenas.
+                  </div>
+                  {% for error in form.username.errors %}
+                  <div class="invalid-feedback">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="id_email" class="form-label">E-mail *</label>
+                  <input type="email" name="email" id="id_email"
+                    class="form-control {% if form.email.errors %}is-invalid{% endif %}" required
+                    placeholder="seu@email.com">
+                  {% for error in form.email.errors %}
+                  <div class="invalid-feedback">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Foto de Perfil -->
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="id_foto" class="form-label">Foto de Perfil</label>
+                  <input type="file" name="foto" id="id_foto" class="form-control" accept="image/*"
+                    aria-describedby="fotoHelp">
+                  <div id="fotoHelp" class="form-text">
+                    Formatos suportados: JPG, PNG, GIF (máx. 5MB)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Descrição do Perfil -->
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="id_descricao_perfil" class="form-label">Descrição do Perfil</label>
+                  <textarea name="descricao_perfil" id="id_descricao_perfil" class="form-control" rows="3"
+                    maxlength="500"></textarea>
+                </div>
+              </div>
+
+              <!-- Senha 1 -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="id_password1" class="form-label">Senha *</label>
+                  <input type="password" name="password1" id="id_password1"
+                    class="form-control {% if form.password1.errors %}is-invalid{% endif %}" required
+                    aria-describedby="password1Help">
+                  <div id="password1Help" class="form-text">
+                    Mínimo 8 caracteres. Não use informações pessoais.
+                  </div>
+                  {% for error in form.password1.errors %}
+                  <div class="invalid-feedback">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Senha 2 -->
+              <div class="col-md-6">
+                <div class="mb-4">
+                  <label for="id_password2" class="form-label">Confirmação de Senha *</label>
+                  <input type="password" name="password2" id="id_password2"
+                    class="form-control {% if form.password2.errors %}is-invalid{% endif %}" required
+                    aria-describedby="password2Help">
+                  <div id="password2Help" class="form-text">
+                    Digite a mesma senha para verificação.
+                  </div>
+                  {% for error in form.password2.errors %}
+                  <div class="invalid-feedback">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-dark btn-lg">
+                Criar Conta
+              </button>
+            </div>
+
+            <div class="mt-4 text-center">
+              <p class="mb-0">Já tem uma conta?
+                <a href="{% url 'accounts:login' %}" class="text-decoration-none">
+                  Faça login aqui
+                </a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
 {% endblock %}

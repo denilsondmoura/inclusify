@@ -13,7 +13,7 @@
                 <span class="ms-2" aria-hidden="true"><i class="fas fa-arrow-alt-circle-down"></i></span> <span
                     class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>•
                 <span class="mx-2" aria-label="Comentários">{{ object.comentarios_count }} comentários</span>•
-                <span class="mx-2" aria-label="Autor">{{ object.created_by.nome_publico }}</span> •
+                <span class="mx-2" aria-label="Autor">{{ object.created_by.username }}</span> •
                 <time class="mx-2" datetime="{{ object.created_at|date:'Y-m-d' }}"
                     aria-label="Publicado há {{ object.created_at|timesince }}">
                     {{ object.created_at|timesince }} atrás

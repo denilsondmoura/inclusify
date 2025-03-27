@@ -3,16 +3,19 @@
 <section class="row mb-3">
     {% if comentario %}
         <div class="col-auto">
-            <img src="{% static 'img/no-photo.png'%}" width="60" class="rounded-circle float-start"
-                alt="Foto de perfil do autor do artigo">
+            {% if comentario.created_by.foto %}
+                <img src="{{ comentario.created_by.foto.url }}" width="60" class="rounded-circle float-start p-2" alt="Foto de perfil do autor do comentário">
+            {% else %}
+                <img src="{% static 'img/no-photo.png'%}" width="60" class="rounded-circle float-start" alt="Foto de perfil do autor do comentário">
+            {% endif %}
         </div>
         <div class="col">
             <div class="row h-40 mt-2">
-                {{ comentario.created_by.nome_publico }}
+                {{ comentario.created_by.username }}
             </div>
             <div class="row h-50">
                 <small class="text-muted px-0">
-                    <time class="mx-2" datetime="{{ comentario.created_at|date:'Y-m-d' }}"
+                    <time datetime="{{ comentario.created_at|date:'Y-m-d' }}"
                         aria-label="Publicado há {{ comentario.created_at|timesince }}">
                         {{ comentario.created_at|timesince }} atrás
                     </time>
@@ -21,16 +24,19 @@
         </div>
     {% else %}
         <div class="col-auto">
-            <img src="{% static 'img/no-photo.png'%}" width="60" class="rounded-circle float-start"
-                alt="Foto de perfil do autor do artigo">
+            {% if object.created_by.foto %}
+                <img src="{{ object.created_by.foto.url }}" width="60" class="rounded-circle float-start p-2" alt="Foto de perfil do autor da postagem">
+            {% else %}
+                <img src="{% static 'img/no-photo.png'%}" width="60" class="rounded-circle float-start" alt="Foto de perfil do autor da postagem">
+            {% endif %}
         </div>
         <div class="col">
             <div class="row h-40 mt-2">
-                {{ object.created_by.nome_publico }}
+                {{ object.created_by.username }}
             </div>
             <div class="row h-50">
                 <small class="text-muted px-0">
-                    <time class="mx-2" datetime="{{ object.created_at|date:'Y-m-d' }}"
+                    <time datetime="{{ object.created_at|date:'Y-m-d' }}"
                         aria-label="Publicado há {{ object.created_at|timesince }}">
                         {{ object.created_at|timesince }} atrás
                     </time>

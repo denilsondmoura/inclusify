@@ -1,10 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Logar</button>
-  </form>
+<div class="container mt-5 d-flex flex-column justify-content-center">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <!-- Card de Login -->
+      <section class="card shadow-sm" aria-labelledby="loginHeading">
+        <div class="card-header bg-dark text-white">
+          <h1 id="loginHeading" class="h4 mb-0 text-center">Acessar o Sistema</h1>
+        </div>
+
+        <div class="card-body">
+          {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            Nome de usuário ou senha incorretos. Por favor tente novamente.
+          </div>
+          {% endif %}
+
+          <form method="post" role="form" aria-label="Formulário de login">
+            {% csrf_token %}
+
+            <!-- Campo E-mail -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Nome de usuário</label>
+              <input type="text" name="username" id="username" class="form-control" required autocomplete="email"
+                aria-describedby="emailHelp" placeholder="seu@email.com">
+              <div id="emailHelp" class="form-text">Digite seu e-mail cadastrado</div>
+            </div>
+
+            <!-- Campo Senha -->
+            <div class="mb-4">
+              <label for="id_password" class="form-label">Senha</label>
+              <input type="password" name="password" id="id_password" class="form-control" required
+                autocomplete="current-password" placeholder="••••••••">
+            </div>
+
+            <!-- Botão de Login -->
+            <button type="submit" class="btn btn-dark w-100 mb-3">
+              Entrar
+            </button>
+
+            <!-- Link Esqueci a Senha -->
+            <div class="text-center">
+              <a href="{% url 'accounts:password_reset' %}" class="text-decoration-none" aria-label="Recuperar senha">
+                Esqueceu sua senha?
+              </a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
 {% endblock %}
