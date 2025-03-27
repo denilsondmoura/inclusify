@@ -1,15 +1,17 @@
 {% load static %}
 
 <div class="mb-4">
-    {% include "partials/postagem_comentario_avatar.html" %}
-    <article role="article" class="border-start border-1 border-secondary px-4 ms-4">
-        <div class="summernote-content">
-            {{ comentario.conteudo|safe }}
-        </div>
-
-        {% include "partials/postagem_button_group.html" %}
-        {% for comentario in comentario.respostas.all %}
-            {% include "partials/comentario.html" %}
-        {% endfor %}
-    </article>
+    <div class="mb-4">
+        {% include "partials/postagem_comentario_avatar.html" %}
+        <article role="article" class="border-start border-1 border-secondary px-4 ms-4">
+            <div class="summernote-content">
+                {{ comentario.conteudo|safe }}
+            </div>
+    
+            {% include "partials/postagem_button_group.html" %}
+        </article>
+    </div>
+    {% for comentario in comentario.respostas.all %}
+        {% include "partials/comentario.html" %}
+    {% endfor %}
 </div>

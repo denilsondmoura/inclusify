@@ -7,22 +7,24 @@
       <div class="col-lg-8 col-md-12">
         {% include "partials/postagem_comentario_avatar.html" %}
         <section class="border-start border-1 border-secondary px-4 ms-4">
-          <article role="article">
-            <header class="mb-5">
-              <h1 id="introduction" class="h2">{{ object.titulo }}</h1>
-              <nav class="d-inline-block">
-                {% for topico in object.topicos.all %}
-                <a href="{% url 'topico_postagens_list' topico.id %}">
-                  <span class="badge bg-secondary me-1">{{ topico }}</span>
-                </a>  
-                {% endfor %}
-              </nav>
-            </header>
-            <div class="summernote-content">
-              {{ object.corpo|safe }}
-            </div>
-          </article>
-          {% include "partials/postagem_button_group.html" %}
+          <div class="mb-4">
+            <article role="article mb-4">
+              <header class="mb-5">
+                <h1 id="introduction" class="h2">{{ object.titulo }}</h1>
+                <nav class="d-inline-block">
+                  {% for topico in object.topicos.all %}
+                  <a href="{% url 'topico_postagens_list' topico.id %}">
+                    <span class="badge bg-secondary me-1">{{ topico }}</span>
+                  </a>  
+                  {% endfor %}
+                </nav>
+              </header>
+              <div class="summernote-content">
+                {{ object.corpo|safe }}
+              </div>
+            </article>
+            {% include "partials/postagem_button_group.html" %}
+          </div>
           {% for comentario in object.comentarios.all %}
             {% include "partials/comentario.html" %}
           {% endfor %}
