@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.utils import timezone
 from django.db import models
 from .mixins import AuditMixin
+import math
         
 class Topico(AuditMixin):
     nome = models.CharField(max_length=100)
@@ -11,8 +13,7 @@ class Topico(AuditMixin):
     
     @property
     def post_count(self):
-        # TODO: Implementar calculo
-        return 165
+        return self.postagens.count()
 
 
 class Postagem(AuditMixin):
@@ -30,18 +31,39 @@ class Postagem(AuditMixin):
     
     @property
     def upvotes_count(self):
-        # TODO: Implementar calculo
-        return 11
+        return self.votos.filter(valor='+1').count()
     
     @property
     def downvotes_count(self):
-        # TODO: Implementar calculo
-        return 5
+        return self.votos.filter(valor='-1').count()
     
     @property
     def comentarios_count(self):
-        # TODO: Implementar calculo
-        return 9
+        count = self.comentarios.count()
+        for comentario in self.comentarios.all():
+            count += comentario.respostas.count()
+            
+        return count
+    
+    # def calcular_relevancia(post):
+    #     upvotes = post.votos_positivos
+    #     downvotes = post.votos_negativos
+    #     comentarios = post.comentarios.count()
+    #     horas_desde_criacao = (timezone.now() - post.data_criacao).total_seconds() / 3600
+        
+    #     # Fatores de ponderação (ajustáveis)
+    #     peso_votos = 2.0
+    #     peso_comentarios = 1.5
+    #     gravidade = 1.8  # Controla o decaimento temporal
+        
+    #     # Cálculo dos componentes
+    #     score_votos = (upvotes - downvotes) * peso_votos
+    #     score_comentarios = comentarios * peso_comentarios
+        
+    #     # Fórmula final com decaimento temporal
+    #     relevancia = (score_votos + score_comentarios) / ((horas_desde_criacao + 2) ** gravidade)
+        
+    #     return relevancia
     
     
 
@@ -68,6 +90,20 @@ class Comentario(AuditMixin):
             return f"Resposta de {self.created_by} ao {self.parent_comment}"
         else: 
             return f"Comentário de {self.created_by} em {self.postagem}"
+        
+    @property
+    def upvotes_count(self):
+        return self.votos.filter(valor='+1').count()
+    
+    @property
+    def downvotes_count(self):
+        return self.votos.filter(valor='-1').count()
+    
+    @property
+    def comentarios_count(self):
+        count = self.respostas.count()
+        return count
+    
 
 
 class VotoPostagem(AuditMixin):
