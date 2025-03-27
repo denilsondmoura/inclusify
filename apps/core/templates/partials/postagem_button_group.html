@@ -2,7 +2,6 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
 <div class="mb-0 mt-2 d-inline-flex">
-    <!-- Botão Responder que ativa o collapse -->
     <button class="btn btn-outline-dark btn-sm me-2" 
             type="button" 
             data-bs-toggle="collapse" 
@@ -13,14 +12,29 @@
     </button>
     
     <!-- Seus outros botões -->
-    <button class="btn px-1 d-flex align-items-center" aria-hidden="true">
-        <i class="fas fa-arrow-alt-circle-up fs-3"></i>
-        <span class="mx-2" aria-label="Up Votes">{{ object.upvotes_count }}</span>
-    </button>
-    <button class="btn px-1 d-flex align-items-center" aria-hidden="true">
-        <i class="fas fa-arrow-alt-circle-down fs-3"></i>
-        <span class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>
-    </button>
+    {% if comentario %}
+        <a href="{% url 'voto_comentario' object.id comentario.id '+1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+            <i class="fas fa-arrow-alt-circle-up fs-3"></i>
+            <span class="mx-2" aria-label="Up Votes">{{ comentario.upvotes_count }}</span>
+        </a>
+    {% else %}
+        <a href="{% url 'voto_postagem' object.id '+1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+            <i class="fas fa-arrow-alt-circle-up fs-3"></i>
+            <span class="mx-2" aria-label="Up Votes">{{ object.upvotes_count }}</span>
+        </a>
+    {% endif %}
+
+    {% if comentario %}
+        <a href="{% url 'voto_comentario' object.id comentario.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+            <i class="fas fa-arrow-alt-circle-down fs-3"></i>
+            <span class="mx-2" aria-label="Down Votes">{{ comentario.downvotes_count }}</span>
+        </a>
+    {% else %}
+        <a href="{% url 'voto_postagem' object.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+            <i class="fas fa-arrow-alt-circle-down fs-3"></i>
+            <span class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>
+        </a>
+    {% endif %}
 </div>
 
 <!-- Área do formulário (inicialmente oculta) -->
@@ -32,7 +46,7 @@
     {% endif %}
         {% csrf_token %}        
         <div class="mb-3">
-            <textarea id="summernote-editor-{{ object.id }}" class="form-control" name="conteudo" required></textarea>
+            <textarea id="summernote-editor-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}" class="form-control" name="conteudo" required></textarea>
         </div>
         
         <div class="d-flex justify-content-end">
@@ -51,7 +65,7 @@
 <script>
     $(document).ready(function() {
         // Inicializa o Summernote
-        $('#summernote-editor-{{ object.id }}').summernote({
+        $('#summernote-editor-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}').summernote({
             placeholder: 'Digite sua resposta aqui...',
             tabsize: 2,
             height: 200,
