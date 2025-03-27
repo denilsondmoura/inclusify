@@ -27,6 +27,9 @@
   </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+    <!-- Toasts serão adicionados aqui dinamicamente -->
+  </div>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
@@ -159,5 +162,43 @@
       color: white;
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifica se há mensagens
+        {% if messages %}
+            const toastContainer = document.getElementById('toastContainer');
+            
+            {% for message in messages %}
+                // Cria um novo elemento toast
+                const toastEl = document.createElement('div');
+                toastEl.className = 'toast align-items-center text-white bg-{{ message.tags }}';
+                toastEl.setAttribute('role', 'alert');
+                toastEl.setAttribute('aria-live', 'assertive');
+                toastEl.setAttribute('aria-atomic', 'true');
+                
+                toastEl.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message|escapejs }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                // Adiciona o toast ao container
+                toastContainer.appendChild(toastEl);
+                
+                // Inicializa e mostra o toast
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                
+                // Remove o toast após ser escondido
+                toastEl.addEventListener('hidden.bs.toast', function() {
+                    toastEl.remove();
+                });
+            {% endfor %}
+        {% endif %}
+    });
+    </script>
 </body>
 </html>
