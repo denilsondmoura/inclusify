@@ -17,23 +17,75 @@
             <i class="fas fa-arrow-alt-circle-up fs-3"></i>
             <span class="mx-2" aria-label="Up Votes">{{ comentario.upvotes_count }}</span>
         </a>
+        <a href="{% url 'voto_comentario' object.id comentario.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+            <i class="fas fa-arrow-alt-circle-down fs-3"></i>
+            <span class="mx-2" aria-label="Down Votes">{{ comentario.downvotes_count }}</span>
+        </a>
+        {% if request.user == comentario.created_by %}
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-dark h-100" type="button" 
+                        id="dropdownOptionsButtonComentario{{ comentario.id }}" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                
+                <ul class="dropdown-menu" aria-labelledby="dropdownOptionsButtonComentario{{ comentario.id }}">
+                    <li>
+                        <a class="dropdown-item" 
+                        href="{% url 'postagem_detail' comentario.id %}">
+                            Editar
+                        </a>
+                    </li>
+                    <li>
+                        <button class="dropdown-item text-danger" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteModal"
+                                data-post-id="{{ object.id }}"
+                                data-post-url="{% url 'postagem_detail' comentario.id %}">
+                            Excluir
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
     {% else %}
         <a href="{% url 'voto_postagem' object.id '+1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
             <i class="fas fa-arrow-alt-circle-up fs-3"></i>
             <span class="mx-2" aria-label="Up Votes">{{ object.upvotes_count }}</span>
         </a>
-    {% endif %}
-
-    {% if comentario %}
-        <a href="{% url 'voto_comentario' object.id comentario.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
-            <i class="fas fa-arrow-alt-circle-down fs-3"></i>
-            <span class="mx-2" aria-label="Down Votes">{{ comentario.downvotes_count }}</span>
-        </a>
-    {% else %}
         <a href="{% url 'voto_postagem' object.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
             <i class="fas fa-arrow-alt-circle-down fs-3"></i>
             <span class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>
         </a>
+        {% if request.user == object.created_by %}
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-dark h-100" type="button" 
+                        id="dropdownOptionsButtonPostagem{{ object.id }}" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                
+                <ul class="dropdown-menu" aria-labelledby="dropdownOptionsButtonPostagem{{ object.id }}">
+                    <li>
+                        <a class="dropdown-item" 
+                        href="{% url 'postagem_detail' object.id %}">
+                            Editar
+                        </a>
+                    </li>
+                    <li>
+                        <button class="dropdown-item text-danger" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteModal"
+                                data-post-id="{{ object.id }}"
+                                data-post-url="{% url 'postagem_detail' object.id %}">
+                            Excluir
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
     {% endif %}
 </div>
 
@@ -59,6 +111,29 @@
         </div>
     </form>
 </div>
+
+<!-- Modal de Confirmação -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir esta postagem permanentemente?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script para manipulação do modal -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -86,6 +161,17 @@
             if (!$(this).hasClass('collapsed')) {
                 $('#summernote-editor-{{ object.id }}').summernote('reset');
             }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteModal = document.getElementById('deleteModal');
+        var deleteForm = document.getElementById('deleteForm');
+        
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var postUrl = button.getAttribute('data-post-url');
+            deleteForm.action = postUrl;
         });
     });
 </script>
