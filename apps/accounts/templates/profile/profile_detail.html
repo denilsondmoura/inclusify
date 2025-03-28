@@ -1,15 +1,115 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block content %}
-    <h1>{{ title }}</h1>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Sidebar com informações do usuário -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="h5 mb-0">Meu Perfil</h1>
+                </div>
 
-    {% if user.foto %}
-        <img src="{{ user.foto.url }}" alt="Foto de perfil">
-    {% endif %}
-    <h2>Perfil de {{ user.username }}</h2>
-    <p>Email: {{ user.email }}</p>
-    <p>Nome: {{ user.get_full_name }}</p>
-    <a href="{% url 'accounts:profile_edit' %}">Editar</a> <br>
-    <a href="{% url 'accounts:logout' %}">Sair</a> <br>
-  
+                <div class="card-body text-center">
+                    {% if profile.foto %}
+                        <img src="{{ profile.foto.url }}" class="img-fluid rounded-circle mb-3"
+                            alt="Foto de perfil de {{ profile.nome_publico }}"
+                            style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <img src="{% static 'img/no-photo.png'%}" class="img-fluid rounded-circle mb-3"
+                            alt="Foto de perfil de {{ profile.nome_publico }}"
+                            style="width: 150px; height: 150px; object-fit: cover;">
+                    {% endif %}
+
+                    <h2 class="h4">{{ profile.username }}</h2>
+                    <br>
+                    <dl class="row text-start">
+                        <dt class="col-sm-5">E-mail:</dt>
+                        <dd class="col-sm-7">{{ profile.email }}</dd>
+
+                        <dt class="col-sm-5">Cadastrado em:</dt>
+                        <dd class="col-sm-7">{{ profile.date_joined|date:"d/m/Y" }}</dd>
+                    </dl>
+
+                    {% if profile.descricao_perfil %}
+                        <div class="border-top pt-3">
+                            <h3 class="h6">Sobre mim</h3>
+                            <p class="text-muted">{{ profile.descricao_perfil }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="col-md-8">
+            <!-- Seção de Postagens -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="h5 mb-0">Minhas Últimas Postagens</h2>
+                </div>
+                <div class="card-body">
+                    {% if postagens %}
+                    <div class="list-group">
+                        {% for postagem in postagens %}
+                        <a href="{% url 'postagem_detail' postagem.id %}" class="list-group-item list-group-item-action"
+                            aria-label="Ver postagem: {{ postagem.titulo }}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <div class="mb-1">{{ postagem.titulo }}</div>
+                                <small>{{ postagem.created_at|timesince }} atrás</small>
+                            </div>
+                            <div class="text-muted">{{ postagem.conteudo|truncatechars:100|striptags }}</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-dark" role="alert">
+                        Você ainda não fez nenhuma postagem.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Seção de Comentários -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="h5 mb-0">Meus Últimos Comentários</h2>
+                </div>
+                <div class="card-body">
+                    {% if comentarios %}
+                    <div class="list-group">
+                        {% for comentario in comentarios %}
+                            {% if comentario.postagem %}
+                                <a href="{% url 'postagem_detail' comentario.postagem.id %}" class="list-group-item list-group-item-action"
+                                    aria-label="Ver comentário na postagem: {{ comentario.postagem.titulo }}">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <div>{{ comentario.conteudo|truncatechars:100|striptags }}</div>
+                                        <small>{{ comentario.created_at|timesince }} atrás</small>
+                                    </div>
+                                    <small class="text-muted">Na postagem: {{ comentario.postagem.titulo }}</small>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'postagem_detail' comentario.postagem_origem.id %}" class="list-group-item list-group-item-action"
+                                    aria-label="Ver resposta no comentario: {{ comentario.parent_comment.conteudo|truncatechars:100|striptags }}">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <div>{{ comentario.conteudo|truncatechars:100|striptags }}</div>
+                                        <small>{{ comentario.created_at|timesince }} atrás</small>
+                                    </div>
+                                    <small class="text-muted">No comentário: {{ comentario.parent_comment.conteudo|truncatechars:100|striptags }}</small>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-dark" role="alert">
+                        Você ainda não fez nenhum comentário.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

@@ -1,14 +1,16 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, DetailView
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+    PasswordResetCompleteView
 from .forms import ProfileCreationForm
 from .models import Profile
+from apps.core.models import Postagem, Comentario
 
 
 class AccountLoginView(LoginView):
@@ -68,12 +70,26 @@ class AccountPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = "registration/account_password_reset_complete.html"
     
 class AccountProfileDetailView(LoginRequiredMixin, TemplateView):
-    template_name = "profile/profile_detail.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Perfil'
         context["user"] = self.request.user
+        return context
+    
+class AccountProfileView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = "profile/profile_detail.html"
+    context_object_name = 'profile'
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['postagens'] = Postagem.objects.filter(created_by=user).order_by('-created_at')[:10]
+        context['comentarios'] = Comentario.objects.filter(created_by=user).order_by('-created_at')[:10]
         return context
     
 class AccountProfileEditView(LoginRequiredMixin, TemplateView):

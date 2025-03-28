@@ -44,29 +44,6 @@ class Postagem(AuditMixin):
             count += comentario.respostas.count()
             
         return count
-    
-    # def calcular_relevancia(post):
-    #     upvotes = post.votos_positivos
-    #     downvotes = post.votos_negativos
-    #     comentarios = post.comentarios.count()
-    #     horas_desde_criacao = (timezone.now() - post.data_criacao).total_seconds() / 3600
-        
-    #     # Fatores de ponderação (ajustáveis)
-    #     peso_votos = 2.0
-    #     peso_comentarios = 1.5
-    #     gravidade = 1.8  # Controla o decaimento temporal
-        
-    #     # Cálculo dos componentes
-    #     score_votos = (upvotes - downvotes) * peso_votos
-    #     score_comentarios = comentarios * peso_comentarios
-        
-    #     # Fórmula final com decaimento temporal
-    #     relevancia = (score_votos + score_comentarios) / ((horas_desde_criacao + 2) ** gravidade)
-        
-    #     return relevancia
-    
-    
-
 
 class Comentario(AuditMixin):
     conteudo = models.TextField()
@@ -103,6 +80,29 @@ class Comentario(AuditMixin):
     def comentarios_count(self):
         count = self.respostas.count()
         return count
+
+    @property
+    def postagem_origem(self):
+        """
+        Retorna a postagem raiz mesmo para comentários aninhados,
+        percorrendo a hierarquia de respostas até encontrar a postagem original
+        """
+        current = self
+        
+        # Percorre a cadeia de comentários pais até encontrar a postagem
+        while current.parent_comment is not None:
+            current = current.parent_comment
+            
+            # Segurança contra loops infinitos (caso raro de configuração errada)
+            if current == self:  # Detecta loop circular
+                raise ValueError("Loop infinito detectado na hierarquia de comentários")
+                
+        # Retorna a postagem do comentário ancestral mais alto
+        if current.postagem:
+            return current.postagem
+            
+        # Caso extremo onde não há postagem associada (deveria ser impossível pelo modelo)
+        raise ValueError("Nenhuma postagem encontrada na hierarquia de comentários")
     
 
 
