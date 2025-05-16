@@ -29,6 +29,7 @@ media/*
 media_cgeo/*
 static_cgeo_app/*
 media_cgeo-old/*
+tests/reports
 #media/temp
 #media/uploads
 #media/anexos
