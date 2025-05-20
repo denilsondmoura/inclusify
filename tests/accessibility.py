@@ -28,6 +28,7 @@ class AccessibilityTestBase(StaticLiveServerTestCase):
     def run_accessibility_test(self, path, context=None, rules=None, tags=None, page_name=None):
         """
         Executa o teste axe-core em uma rota.
+        $: python manage.py test tests.accessibility
 
         :param path: URL path (ex: '/login/') ou full URL
         :param context: CSS selector para limitar análise (opcional)
