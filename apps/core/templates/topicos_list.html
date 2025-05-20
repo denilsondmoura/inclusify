@@ -2,15 +2,16 @@
 
 {% block content %}
   <div class="container">
-    <section class="list-group" role="list" aria-labelledby="postagens-titulo">
-      <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>
-      <div class="row row-cols-1 row-cols-md-3 g-4">
+    <section aria-labelledby="section-title">
+      <h1 id="section-title" class="mb-4">{{ title }}</h1>
+      
+      <ul class="list-unstyled row row-cols-1 row-cols-md-3 g-4">
         {% for object in page_obj.object_list %}
           {% include "partials/topico_list_item.html" %}
         {% empty %}
           <p class="text-muted">Nenhum tópico disponível no momento.</p>
         {% endfor %}
-      </div>
+      </ul>
     </section>
     {% include "partials/paginacao.html" %}
   </div>

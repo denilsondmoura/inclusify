@@ -2,14 +2,16 @@
 
 {% block content %}
   <div class="container">
-    <section aria-labelledby="postagens-titulo">
-      <h1 id="postagens-titulo" class="mb-4">Relevantes</h1>
+    <section aria-labelledby="section-title">
+      <h1 id="section-title" class="mb-4">{{ title }}</h1>
     
       <ul class="list-group">
         {% for object in page_obj.object_list %}
           {% include "partials/postagem_list_item.html" %}
         {% empty %}
-          <p class="text-muted">Nenhuma postagem disponível no momento.</p>
+          <li class="list-group-item text-muted">
+            Nenhuma postagem disponível no momento.
+          </li>
         {% endfor %}
       </ul>
     </section>

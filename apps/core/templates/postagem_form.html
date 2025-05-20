@@ -21,8 +21,8 @@
     }
   </style>
 
-  <section class="list-group" role="list" aria-labelledby="postagens-titulo">
-    <h1 id="postagens-titulo" class="mb-4">{{ title }}</h1>  
+  <section aria-labelledby="section-title">
+    <h1 id="section-title" class="mb-4">{{ title }}</h1>
     <form method="post">
         {% csrf_token %}
         
