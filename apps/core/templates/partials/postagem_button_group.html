@@ -13,11 +13,11 @@
     
     <!-- Seus outros botões -->
     {% if comentario %}
-        <a href="{% url 'voto_comentario' object.id comentario.id '+1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+        <a href="{% url 'voto_comentario' object.id comentario.id '+1' %}" role="button" aria-label="Up Vote" class="btn px-1 d-flex align-items-center">
             <i class="fas fa-arrow-alt-circle-up fs-3"></i>
             <span class="mx-2" aria-label="Up Votes">{{ comentario.upvotes_count }}</span>
         </a>
-        <a href="{% url 'voto_comentario' object.id comentario.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+        <a href="{% url 'voto_comentario' object.id comentario.id '-1' %}" role="button" aria-label="Down Vote" class="btn px-1 d-flex align-items-center">
             <i class="fas fa-arrow-alt-circle-down fs-3"></i>
             <span class="mx-2" aria-label="Down Votes">{{ comentario.downvotes_count }}</span>
         </a>
@@ -26,6 +26,7 @@
                 <button class="btn btn-sm btn-outline-dark h-100" type="button" 
                         id="dropdownOptionsButtonComentario{{ comentario.id }}" 
                         data-bs-toggle="dropdown" 
+                        aria-label="Opções"
                         aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
@@ -50,19 +51,20 @@
             </div>
         {% endif %}
     {% else %}
-        <a href="{% url 'voto_postagem' object.id '+1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+        <a href="{% url 'voto_postagem' object.id '+1' %}" role="button" aria-label="Up Vote" class="btn px-1 d-flex align-items-center">
             <i class="fas fa-arrow-alt-circle-up fs-3"></i>
             <span class="mx-2" aria-label="Up Votes">{{ object.upvotes_count }}</span>
         </a>
-        <a href="{% url 'voto_postagem' object.id '-1' %}" role="button" class="btn px-1 d-flex align-items-center" aria-hidden="true">
+        <a href="{% url 'voto_postagem' object.id '-1' %}" role="button" aria-label="Down Vote" class="btn px-1 d-flex align-items-center">
             <i class="fas fa-arrow-alt-circle-down fs-3"></i>
             <span class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>
-        </a>
+        </a>                
         {% if request.user == object.created_by %}
             <div class="dropdown">
                 <button class="btn btn-sm btn-outline-dark h-100" type="button" 
                         id="dropdownOptionsButtonPostagem{{ object.id }}" 
                         data-bs-toggle="dropdown" 
+                        aria-label="Opções"
                         aria-expanded="false">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
