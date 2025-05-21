@@ -1,14 +1,14 @@
 <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center rounded-2 mb-2 px-4">
     <a href="{% url 'postagem_detail' object.id %}" class="text-decoration-none text-dark"
-        aria-label="Ler postagem: {{ object.titulo }}">
+        aria-label="Ler postagem: {{ object.titulo }} publicada há {{ object.created_at|timesince }} por {{ object.created_by.username }} com {{ object.upvotes_count }} up votes, {{ object.downvotes_count }} down votes e {{ object.comentarios_count }} comentários">
         <div>
             <h2 class="h5 mb-1">
                 {{ page_obj.start_index|add:forloop.counter|add:-1 }}. {{ object.titulo }}
             </h2>
             <p class="text-muted small mb-1">
-                <span aria-hidden="true"><i class="fas fa-arrow-alt-circle-up"></i></span> <span
+                <span><i class="fas fa-arrow-alt-circle-up"></i></span> <span
                     aria-label="Up Votes">{{ object.upvotes_count }}</span>
-                <span class="ms-2" aria-hidden="true"><i class="fas fa-arrow-alt-circle-down"></i></span> <span
+                <span class="ms-2"><i class="fas fa-arrow-alt-circle-down"></i></span> <span
                     class="mx-2" aria-label="Down Votes">{{ object.downvotes_count }}</span>•
                 <span class="mx-2" aria-label="Comentários">{{ object.comentarios_count }} comentários</span>•
                 <span class="mx-2" aria-label="Autor">{{ object.created_by.username }}</span> •

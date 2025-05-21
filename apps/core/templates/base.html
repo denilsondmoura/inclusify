@@ -33,7 +33,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand text-white" href="{% url 'postagens_relevantes_list' %}">
+        <a class="navbar-brand text-white" href="{% url 'postagens_relevantes_list' %}" aria-hidden="true">
           <img src="{% static 'img/logo.svg'%}" width="30" alt="Logo do Inclusify"/> Inclusify
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -43,20 +43,20 @@
         <div class="collapse navbar-collapse float-right" id="navbarNav">
           <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                  <a class="nav-link text-white" href="{% url 'postagens_relevantes_list' %}">Relevantes</a>
+                  <a class="nav-link text-white" href="{% url 'postagens_relevantes_list' %}" aria-label="Ver postagens relevantes">Relevantes</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white" href="{% url 'postagens_recentes_list' %}">Recentes</a>
+                  <a class="nav-link text-white" href="{% url 'postagens_recentes_list' %}" aria-label="Ver postagens recentes">Recentes</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white" href="{% url 'topicos_list' %}">Tópicos</a>
+                  <a class="nav-link text-white" href="{% url 'topicos_list' %}" aria-label="Ver lista de tópicos">Tópicos</a>
               </li>
           </ul>
           {% if user.is_authenticated %}
             <!-- Exibe o dropdown em telas médias ou maiores -->
             <div class="d-none d-lg-block">
               <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Configurações">
                   ☰
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
@@ -71,16 +71,16 @@
                   </li>
                   <li>
                     <div class="dropdown-item btn-group" role="group" aria-label="Grupo de botões para alterar a paleta de cores do site">
-                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌞</button>
-                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">Auto</button>
-                      <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌙</button>
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Modo claro">🌞</button>
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Configuração automática">Auto</button>
+                      <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Modo escuro">🌙</button>
                     </div>
                   </li>
                   <li>
                     <div class="dropdown-item btn-group" role="group" aria-label="Grupo de botões para alterar o tamanho da fonte do site">
-                      <button type="button" class="btn btn-dark">-A</button>
-                      <button type="button" class="btn btn-dark">Auto</button>
-                      <button type="button" class="btn btn-dark">+A</button>
+                      <button type="button" class="btn btn-dark" aria-label="Diminuir tamanho da fonte">-A</button>
+                      <button type="button" class="btn btn-dark" aria-label="Configuração automática">Auto</button>
+                      <button type="button" class="btn btn-dark" aria-label="Aumentar tamanho da fonte">+A</button>
                     </div>
                   </li>
                 </ul>
@@ -101,17 +101,17 @@
                 </li>
                 <li class="nav-item">
                   <div class="btn-group" role="group" aria-label="Grupo de botões para alterar a paleta de cores do site">
-                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌞</button>
-                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">Auto</button>
-                    <button type="button" class="btn btn-dark" onclick="toggleTheme()">🌙</button>
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Modo claro">🌞</button>
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Configuração automática">Auto</button>
+                    <button type="button" class="btn btn-dark" onclick="toggleTheme()" aria-label="Modo escuro">🌙</button>
                   </div>
                 </li>
 
                 <li class="nav-item">
                   <div class="btn-group" role="group" aria-label="Grupo de botões para alterar o tamanho da fonte do site">
-                    <button type="button" class="btn btn-dark">-A</button>
-                    <button type="button" class="btn btn-dark">Auto</button>
-                    <button type="button" class="btn btn-dark">+A</button>
+                    <button type="button" class="btn btn-dark" aria-label="Diminuir tamanho da fonte">-A</button>
+                    <button type="button" class="btn btn-dark" aria-label="Configuração automática">Auto</button>
+                    <button type="button" class="btn btn-dark" aria-label="Aumentar tamanho da fonte">+A</button>
                   </div>
                 </li>
               </ul>
