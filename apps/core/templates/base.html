@@ -24,9 +24,23 @@
       background-color: #011627;
       color: white;
     }
+    .skip-link {
+      position: absolute;
+      top: -40px;            /* esconde fora da tela */
+      left: 0;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      z-index: 100;
+      transition: top 0.3s;
+    }
+    .skip-link:focus {
+      top: 0;                /* torna visível quando em foco */
+    }
   </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
   <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
     <!-- Toasts serão adicionados aqui dinamicamente -->
   </div>
@@ -131,7 +145,7 @@
     </nav>
   </header>
 
-  <main class="my-5 h-100">
+  <main id="main-content" class="my-5 h-100">
     {% block content %}
     {% endblock content %}
   </main>

@@ -84,5 +84,8 @@ class TestAllPagesAccessibility(AccessibilityTestBase):
     def test_home_page(self):
         self.run_accessibility_test(path='/', page_name='home')
 
-    # def test_recentes_page(self):
-    #     self.run_accessibility_test(path='/postagens/recentes/', page_name='recentes')
+    def test_register_page(self):
+        self.run_accessibility_test(path='/accounts/register/', page_name='register')
+
+    def test_login_page(self):
+        self.run_accessibility_test(path='/accounts/login/', page_name='login')
