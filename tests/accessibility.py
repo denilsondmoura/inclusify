@@ -89,3 +89,17 @@ class TestAllPagesAccessibility(AccessibilityTestBase):
 
     def test_login_page(self):
         self.run_accessibility_test(path='/accounts/login/', page_name='login')
+        
+    def test_password_reset_page(self):
+        self.run_accessibility_test(path='/accounts/password_reset/', page_name='password_reset')
+        self.run_accessibility_test(path='/accounts/password_reset/done', page_name='password_reset_done')
+        self.run_accessibility_test(path='/accounts/reset/MQ/cq9hna-b6b5da129447cd9590c5b5c12d1c34d2/', page_name='password_reset_confirm')
+        self.run_accessibility_test(path='/accounts/reset/done/', page_name='password_reset_complete')
+    
+    def test_postagem_create_page(self):
+        self.run_accessibility_test(path='/postagens/nova/', page_name='postagem_create')
+    
+    def test_topicos_page(self):
+        self.run_accessibility_test(path='/topicos/', page_name='topicos_list')
+        self.run_accessibility_test(path='/topicos/1/postagens/', page_name='topico_postagens_list')
+        

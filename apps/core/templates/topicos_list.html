@@ -9,7 +9,9 @@
         {% for object in page_obj.object_list %}
           {% include "partials/topico_list_item.html" %}
         {% empty %}
-          <p class="text-muted">Nenhum tópico disponível no momento.</p>
+          <li class="list-group-item text-muted">
+            Nenhum tópico disponível no momento.
+          </li>
         {% endfor %}
       </ul>
     </section>
