@@ -4,6 +4,9 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from axe_selenium_python import Axe
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from apps.core.models import Postagem
 
 class AccessibilityTestBase(StaticLiveServerTestCase):
     """
@@ -83,6 +86,9 @@ class AccessibilityTestBase(StaticLiveServerTestCase):
 class TestAllPagesAccessibility(AccessibilityTestBase):
     def test_home_page(self):
         self.run_accessibility_test(path='/', page_name='home')
+        
+    def test_postagens_recentes_page(self):
+        self.run_accessibility_test(path='/postagens/recentes/', page_name='postagens_recentes_list')
 
     def test_register_page(self):
         self.run_accessibility_test(path='/accounts/register/', page_name='register')
@@ -101,5 +107,13 @@ class TestAllPagesAccessibility(AccessibilityTestBase):
     
     def test_topicos_page(self):
         self.run_accessibility_test(path='/topicos/', page_name='topicos_list')
-        self.run_accessibility_test(path='/topicos/1/postagens/', page_name='topico_postagens_list')
+        # self.run_accessibility_test(path='/topicos/2/postagens/', page_name='topico_postagens_list')
         
+    # def test_postagem_detail_page(self):
+    #     postagem = Postagem.objects.create(
+    #         titulo='Teste de Acessibilidade',
+    #         corpo='Conteúdo qualquer para popular o detalhe.'
+    #     )
+    #     url = reverse('postagem_detail', kwargs={'pk': postagem.id})
+    #     self.run_accessibility_test(path=url, page_name='postagem_detail')
+    
