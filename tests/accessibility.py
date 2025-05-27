@@ -96,6 +96,9 @@ class TestAllPagesAccessibility(AccessibilityTestBase):
     def test_login_page(self):
         self.run_accessibility_test(path='/accounts/login/', page_name='login')
         
+    def test_profile_page(self):
+        self.run_accessibility_test(path='/accounts/profile/', page_name='profile')
+        
     def test_password_reset_page(self):
         self.run_accessibility_test(path='/accounts/password_reset/', page_name='password_reset')
         self.run_accessibility_test(path='/accounts/password_reset/done', page_name='password_reset_done')

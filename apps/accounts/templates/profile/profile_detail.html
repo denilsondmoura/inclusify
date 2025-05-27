@@ -15,11 +15,11 @@
                 <div class="card-body text-center">
                     {% if profile.foto %}
                         <img src="{{ profile.foto.url }}" class="img-fluid rounded-circle mb-3"
-                            alt="Foto de perfil de {{ profile.nome_publico }}"
+                            alt="Foto de perfil de {{ profile.username }}"
                             style="width: 150px; height: 150px; object-fit: cover;">
                     {% else %}
                         <img src="{% static 'img/no-photo.png'%}" class="img-fluid rounded-circle mb-3"
-                            alt="Foto de perfil de {{ profile.nome_publico }}"
+                            alt="Foto de perfil de {{ profile.username }}"
                             style="width: 150px; height: 150px; object-fit: cover;">
                     {% endif %}
 
