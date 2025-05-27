@@ -81,9 +81,9 @@ class PostagemCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('postagens_recentes_list')
 
     def form_valid(self, form):
-        # TODO: Adicionar essa validação de tags e attrs aceitos
         form.instance.created_by = self.request.user
         response = super().form_valid(form)
+        messages.success(self.request, 'Postagem criada com sucesso!')
         return response 
     
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -97,7 +97,6 @@ class PostagemUpdateView(LoginRequiredMixin,
     model = Postagem
     form_class = PostagemForm
     template_name = "postagem_form.html"
-    success_url = reverse_lazy('postagens_recentes_list')
 
     def test_func(self):
         postagem = self.get_object()
@@ -105,12 +104,16 @@ class PostagemUpdateView(LoginRequiredMixin,
 
     def form_valid(self, form):
         form.instance.modified_by = self.request.user
+        messages.success(self.request, 'Postagem alterada com sucesso!')
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['title'] = 'Editar postagem'
         return ctx
+    
+    def get_success_url(self):
+        return reverse('postagem_detail', args=[self.object.id])
     
 class PostagemDetailView(DetailView):
 
