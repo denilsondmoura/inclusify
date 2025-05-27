@@ -206,6 +206,7 @@ def editar_comentario(request, pk, comentario_id):
     comentario = get_object_or_404(Comentario, pk=comentario_id)
 
     if comentario.created_by != request.user:
+        messages.error(request, 'Você não tem permissão para editar este comentário.')
         return HttpResponseForbidden("Você não tem permissão para editar este comentário.")
 
     form = ComentarioForm(request.POST, instance=comentario)
@@ -222,7 +223,37 @@ def editar_comentario(request, pk, comentario_id):
                       'form': form,
                       'comentario': comentario,
                   })
-    
+
+@login_required
+def deletar_comentario(request, pk, comentario_id):
+    postagem = get_object_or_404(Postagem, pk=pk)
+    comentario = get_object_or_404(Comentario, pk=comentario_id)
+
+    if request.method == 'POST':
+        if comentario.created_by != request.user:
+            messages.error(request, 'Você não tem permissão para excluir este comentário.')
+            return HttpResponseForbidden("Você não tem permissão para excluir este comentário.")
+        
+        comentario.delete()
+        messages.success(request, 'Comentário excluído com sucesso!')
+        return redirect(reverse('postagem_detail', args=[postagem.id]))
+    return HttpResponseForbidden()
+
+@login_required
+def deletar_postagem(request, pk):
+    postagem = get_object_or_404(Postagem, pk=pk)
+
+    if request.method == 'POST':
+        if postagem.created_by != request.user:
+            messages.error(request, 'Você não tem permissão para excluir esta postagem.')
+            return HttpResponseForbidden("Você não tem permissão para excluir esta postagem.")
+        
+        postagem.delete()
+        messages.success(request, 'Postagem excluída com sucesso!')
+        return redirect(reverse('postagens_recentes_list'))
+    return HttpResponseForbidden()
+
+
 @login_required
 @require_http_methods(["GET"])  # Garante que só aceita GET
 def voto_postagem(request, pk, voto):

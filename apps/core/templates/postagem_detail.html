@@ -38,6 +38,29 @@
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
   <script>
+    document.getElementById('deleteModal').addEventListener('show.bs.modal', function (e) {
+      const button = e.relatedTarget;
+      const type   = button.getAttribute('data-item-type'); // 'postagem' ou 'comentario'
+      const id     = button.getAttribute('data-item-id');
+      const form   = this.querySelector('#deleteForm');
+      const body   = this.querySelector('#deleteModalBody');
+
+      // Ajusta o texto da modal
+      body.textContent = type === 'postagem'
+        ? 'Tem certeza que deseja excluir esta postagem permanentemente?'
+        : 'Tem certeza que deseja excluir este comentário?';
+
+      // Monta a URL da action substituindo o '0' do reverse
+      let urlTemplate;
+      if (type === 'postagem') {
+        urlTemplate = "{% url 'postagem_delete' 0 %}";      
+      } else {
+        urlTemplate = "{% url 'comentario_delete' object.id 0 %}"; 
+      }
+      form.action = urlTemplate.replace('/0/', `/${id}/`);
+    });
+
+
     $(function() {
       // Inicializa os editores de resposta (summernote) ao mostrar o collapse
       $(document).on('shown.bs.collapse', '[id^="respostaForm-"], [id^="editForm-comentario-"]', function() {

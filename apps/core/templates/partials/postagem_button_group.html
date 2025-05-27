@@ -47,11 +47,13 @@
                         </button>
                       </li>
                     <li>
-                        <button class="dropdown-item text-danger" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#deleteModal"
-                                data-post-id="{{ object.id }}"
-                                data-post-url="{% url 'postagem_detail' comentario.id %}">
+                        <button
+                            class="dropdown-item text-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-item-type="comentario"
+                            data-item-id="{{ comentario.id }}"
+                        >
                             Excluir
                         </button>
                     </li>
@@ -87,11 +89,13 @@
                         </a>
                     </li>
                     <li>
-                        <button class="dropdown-item text-danger" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#deleteModal"
-                                data-post-id="{{ object.id }}"
-                                data-post-url="{% url 'postagem_detail' object.id %}">
+                        <button
+                            class="dropdown-item text-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-item-type="postagem"
+                            data-item-id="{{ object.id }}"
+                        >
                             Excluir
                         </button>
                     </li>
@@ -126,23 +130,23 @@
 </div>
 
 <!-- Modal de Confirmação -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <div class="modal-body">
-                Tem certeza que deseja excluir esta postagem permanentemente?
-            </div>
-            <div class="modal-footer">
-                <form id="deleteForm" method="post">
-                    {% csrf_token %}
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+        <div class="modal-body">
+          <p id="deleteModalBody">Tem certeza que deseja excluir?</p>
+        </div>
+        <div class="modal-footer">
+          <form id="deleteForm" method="post">
+            {% csrf_token %}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-danger">Confirmar</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
