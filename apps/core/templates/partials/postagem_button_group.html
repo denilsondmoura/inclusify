@@ -7,7 +7,9 @@
             data-bs-toggle="collapse" 
             data-bs-target="#respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}" 
             aria-expanded="false" 
-            aria-controls="respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}">
+            aria-controls="respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}"
+            aria-label="Responder {% if comentario %}comentario{% else %}postagem{% endif %}"
+            >
         responder
     </button>
     
