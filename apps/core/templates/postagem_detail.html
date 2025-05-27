@@ -32,4 +32,45 @@
       </div>
     </div>
   </div>
+  <!-- Summernote CSS e JS (uma única importação) -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+  <script>
+    $(function() {
+      // Inicializa os editores de resposta (summernote) ao mostrar o collapse
+      $(document).on('shown.bs.collapse', '[id^="respostaForm-"], [id^="editForm-comentario-"]', function() {
+        var $textarea = $(this).find('textarea');
+        if (!$textarea.data('summernote-inited')) {
+          $textarea.summernote({
+            placeholder: 'Digite aqui...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+              ['font', ['bold','italic','underline','clear']],
+              ['para', ['ul','ol','paragraph']],
+              ['insert',['link','picture','video']],
+              ['view',['codeview']]
+            ]
+          }).data('summernote-inited', true);
+        }
+        $textarea.summernote('focus');
+      });
+
+      $(document).on('hidden.bs.collapse', '[id^="respostaForm-"], [id^="editForm-comentario-"]', function() {
+      var $textarea = $(this).find('textarea');
+
+      if ($textarea.data('summernote-inited')) {
+        $textarea.summernote('destroy');               // destroi instância
+        $textarea.removeData('summernote-inited');     // limpa flag
+      }
+    });
+
+      // Intercepta o submit de qualquer form de resposta ou edição
+      $(document).on('submit', 'form[action*="responder"], .edit-comentario-form', function(e) {
+        // … seu AJAX ou submit normal …
+      });
+    });
+  </script>
 {% endblock content %}

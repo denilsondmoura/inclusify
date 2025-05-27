@@ -4,13 +4,14 @@ from django.views.decorators.http import require_http_methods
 from django.db.models import Count, F, Q, ExpressionWrapper, FloatField
 from django.db.models.functions import Now, Extract
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
+from django.http import HttpResponseForbidden
 from django.utils.html import strip_tags
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from .models import Postagem, Topico, Comentario, VotoComentario, VotoPostagem
-from .forms import PostagemForm
+from .forms import PostagemForm, ComentarioForm
 
 
 class PostagensRelevantesListView(ListView):
@@ -89,6 +90,27 @@ class PostagemCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Criar nova postagem'
         return context
+
+class PostagemUpdateView(LoginRequiredMixin,
+                         UserPassesTestMixin,
+                         UpdateView):
+    model = Postagem
+    form_class = PostagemForm
+    template_name = "postagem_form.html"
+    success_url = reverse_lazy('postagens_recentes_list')
+
+    def test_func(self):
+        postagem = self.get_object()
+        return postagem.created_by == self.request.user
+
+    def form_valid(self, form):
+        form.instance.modified_by = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = 'Editar postagem'
+        return ctx
     
 class PostagemDetailView(DetailView):
 
@@ -174,6 +196,30 @@ def responder_comentario(request, pk, comentario_id):
     messages.success(request, 'Resposta enviada com sucesso!')
     return redirect('postagem_detail', pk)
 
+@login_required
+@require_http_methods(["POST"])
+def editar_comentario(request, pk, comentario_id):
+    postagem = get_object_or_404(Postagem, pk=pk)
+    comentario = get_object_or_404(Comentario, pk=comentario_id)
+
+    if comentario.created_by != request.user:
+        return HttpResponseForbidden("Você não tem permissão para editar este comentário.")
+
+    form = ComentarioForm(request.POST, instance=comentario)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Comentário editado com sucesso!')
+        return redirect(reverse('postagem_detail', args=[postagem.id]))
+    
+
+    # Renderiza o template (pode ser um partial que retorna só o fragmento do comentário)
+    return render(request, 
+                  'partials/postagem_button_group.html',  # ou outro template de edição
+                  {
+                      'form': form,
+                      'comentario': comentario,
+                  })
+    
 @login_required
 @require_http_methods(["GET"])  # Garante que só aceita GET
 def voto_postagem(request, pk, voto):

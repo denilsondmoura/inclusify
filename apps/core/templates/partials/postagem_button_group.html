@@ -35,11 +35,17 @@
                 
                 <ul class="dropdown-menu" aria-labelledby="dropdownOptionsButtonComentario{{ comentario.id }}">
                     <li>
-                        <a class="dropdown-item" 
-                        href="{% url 'postagem_detail' comentario.id %}">
-                            Editar
-                        </a>
-                    </li>
+                        <button
+                          class="dropdown-item"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#editForm-comentario-{{ comentario.id }}"
+                          aria-expanded="false"
+                          aria-controls="editForm-comentario-{{ comentario.id }}"
+                        >
+                          Editar
+                        </button>
+                      </li>
                     <li>
                         <button class="dropdown-item text-danger" 
                                 data-bs-toggle="modal" 
@@ -74,7 +80,9 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownOptionsButtonPostagem{{ object.id }}">
                     <li>
                         <a class="dropdown-item" 
-                        href="{% url 'postagem_detail' object.id %}">
+                            aria-label="Editar Postagem"
+                            href="{% url 'postagem_update' object.id %}"
+                        >
                             Editar
                         </a>
                     </li>
@@ -138,45 +146,3 @@
         </div>
     </div>
 </div>
-<!-- Script para manipulação do modal -->
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Inicializa o Summernote
-        $('#summernote-editor-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}').summernote({
-            placeholder: 'Digite sua resposta aqui...',
-            tabsize: 2,
-            height: 200,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'italic', 'underline', 'clear']],
-                ['fontname', ['fontname']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-        
-        // Limpa o editor quando o formulário é fechado
-        $('[data-bs-target="#respostaForm-{% if comentario %}comentario-{{ comentario.id }}{% else %}postagem-{{ object.id }}{% endif %}"]').on('click', function() {
-            if (!$(this).hasClass('collapsed')) {
-                $('#summernote-editor-{{ object.id }}').summernote('reset');
-            }
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var deleteModal = document.getElementById('deleteModal');
-        var deleteForm = document.getElementById('deleteForm');
-        
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var postUrl = button.getAttribute('data-post-url');
-            deleteForm.action = postUrl;
-        });
-    });
-</script>

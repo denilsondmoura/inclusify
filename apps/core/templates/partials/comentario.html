@@ -1,13 +1,41 @@
 {% load static %}
 
-<div class="mb-4">
+<div class="mb-4" id="comentario-{{ comentario.id }}">
     {% include "partials/postagem_comentario_avatar.html" %}
     <div class="border-start border-1 border-secondary px-4 ms-4">
         <article>
             <div class="summernote-content mb-4">
                 {{ comentario.conteudo|safe }}
             </div>
-    
+            <div class="collapse mt-2" id="editForm-comentario-{{ comentario.id }}">
+                <form
+                  method="post"
+                  action="{% url 'comentario_update' object.id comentario.id %}"
+                  class="edit-comentario-form"
+                  data-comentario-id="{{ comentario.id }}"
+                >
+                  {% csrf_token %}
+                  <div class="mb-2">
+                    <!-- textarea que o Summernote vai transformar -->
+                    <textarea
+                      id="summernote-edit-{{ comentario.id }}"
+                      name="conteudo"
+                      required
+                    >{{ comentario.conteudo|safe }}</textarea>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm me-2"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#editForm-comentario-{{ comentario.id }}"
+                    >
+                      Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-dark btn-sm">Salvar</button>
+                  </div>
+                </form>
+              </div>
             {% include "partials/postagem_button_group.html" %}
         </article>
         {% for comentario in comentario.respostas.all %}
@@ -15,3 +43,53 @@
         {% endfor %}
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+      // Para cada comentário, inicializa o Summernote no textarea escondido
+      $('textarea[id^="summernote-edit-"]').each(function() {
+        $(this).summernote({
+          placeholder: 'Edite seu comentário...',
+          tabsize: 2,
+          height: 150,
+          toolbar: [
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link']],
+            ['view', ['codeview']]
+          ]
+        });
+      });
+  
+      // Quando abrir (expandir) o collapse de edição, foca o editor
+      $('[data-bs-toggle="collapse"][data-bs-target^="#editForm-comentario-"]')
+        .on('click', function() {
+          const target = $(this).data('bs-target'); // e.g. "#editForm-comentario-5"
+          // delay para esperar o collapse animar
+          setTimeout(() => {
+            const textarea = $(`${target} textarea`);
+            textarea.summernote('focus');
+          }, 350);
+        });
+  
+      // Opcional: interceptar o submit para fazer via AJAX e evitar reload
+      $('.edit-comentario-form').on('submit', function(e) {
+        e.preventDefault();
+        const form = $(this);
+        const url = form.attr('action');
+        const data = form.serialize();
+  
+        $.post(url, data)
+          .done(responseHtml => {
+            // Atualiza o conteúdo do comentário na página sem reload:
+            const comentarioId = form.data('comentario-id');
+            $(`#comentario-content-${comentarioId}`).html(
+              // extrai só o HTML do novo comentário
+              $(responseHtml).find(`#comentario-content-${comentarioId}`).html()
+            );
+            // fecha o form
+            form.closest('.collapse').collapse('hide');
+          })
+          .fail(() => alert('Erro ao salvar. Por favor tente novamente.'));
+      });
+    });
+</script>
