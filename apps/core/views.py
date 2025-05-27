@@ -167,10 +167,6 @@ def responder_postagem(request, pk):
     postagem_id = pk
     conteudo = request.POST.get('conteudo')
     
-    # TODO: Adicionar essa validação de tags e attrs aceitos
-    # Validação básica (remova tags não permitidas se necessário)
-    # conteudo_seguro = strip_tags(conteudo, allowed_tags=['p', 'br', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'a'])
-    
     Comentario.objects.create(
         created_by=request.user,
         conteudo=conteudo,
@@ -185,10 +181,6 @@ def responder_postagem(request, pk):
 def responder_comentario(request, pk, comentario_id):
     parent_id = comentario_id
     conteudo = request.POST.get('conteudo')
-    
-    # TODO: Adicionar essa validação de tags e attrs aceitos
-    # Validação básica (remova tags não permitidas se necessário)
-    # conteudo_seguro = strip_tags(conteudo, allowed_tags=['p', 'br', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'a'])
     
     Comentario.objects.create(
         created_by=request.user,
