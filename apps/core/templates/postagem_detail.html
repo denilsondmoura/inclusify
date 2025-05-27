@@ -11,9 +11,9 @@
             <article>
               <header class="mb-5">
                 <h1 id="introduction" class="h2">{{ object.titulo }}</h1>
-                <nav class="d-inline-block">
+                <nav class="d-inline-block" aria-label="Principais tócos dessa postagem">
                   {% for topico in object.topicos.all %}
-                  <a href="{% url 'topico_postagens_list' topico.id %}">
+                  <a href="{% url 'topico_postagens_list' topico.id %}" aria-label="Ver postagens sobre {{ topico }}">
                     <span class="badge bg-secondary me-1">{{ topico }}</span>
                   </a>  
                   {% endfor %}

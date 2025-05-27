@@ -27,5 +27,10 @@ class ProfileCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Adiciona classes Bootstrap aos campos
-        for field in self.fields.values():
+        for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+            if name != 'email':
+                field.widget.attrs['autocomplete'] = 'off'
+            else:
+                field.widget.attrs['autocomplete'] = 'email'
