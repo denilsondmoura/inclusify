@@ -10,7 +10,12 @@
         </div>
 
         <div class="card-body">
-          <form method="post" enctype="multipart/form-data" aria-label="Formulário de cadastro">
+          <form 
+            method="post" 
+            enctype="multipart/form-data" 
+            aria-label="Formulário de cadastro"
+            autocomplete="off"
+            >
             {% csrf_token %}
 
             {% if form.non_field_errors %}
@@ -36,7 +41,7 @@
                     Letras, números e @/./+/-/_ apenas.
                   </div>
                   {% for error in form.username.errors %}
-                  <div class="invalid-feedback">{{ error }}</div>
+                  <div class="invalid-feedback" role="alert">{{ error }}</div>
                   {% endfor %}
                 </div>
               </div>
@@ -49,7 +54,7 @@
                     class="form-control {% if form.email.errors %}is-invalid{% endif %}" required
                     placeholder="seu@email.com">
                   {% for error in form.email.errors %}
-                  <div class="invalid-feedback">{{ error }}</div>
+                  <div class="invalid-feedback" role="alert">{{ error }}</div>
                   {% endfor %}
                 </div>
               </div>
@@ -86,7 +91,7 @@
                     Mínimo 8 caracteres. Não use informações pessoais.
                   </div>
                   {% for error in form.password1.errors %}
-                  <div class="invalid-feedback">{{ error }}</div>
+                  <div class="invalid-feedback" role="alert">{{ error }}</div>
                   {% endfor %}
                 </div>
               </div>
@@ -102,7 +107,7 @@
                     Digite a mesma senha para verificação.
                   </div>
                   {% for error in form.password2.errors %}
-                  <div class="invalid-feedback">{{ error }}</div>
+                  <div class="invalid-feedback" role="alert">{{ error }}</div>
                   {% endfor %}
                 </div>
               </div>
@@ -116,7 +121,7 @@
 
             <div class="mt-4 text-center">
               <p class="mb-0">Já tem uma conta?
-                <a href="{% url 'accounts:login' %}" class="text-decoration-none">
+                <a href="{% url 'accounts:login' %}" class="text-decoration-none" aria-label="Ir para a página de login">
                   Faça login aqui
                 </a>
               </p>
