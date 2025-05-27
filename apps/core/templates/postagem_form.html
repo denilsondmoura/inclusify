@@ -27,17 +27,17 @@
         {% csrf_token %}
         
         <div class="mb-3">
-            <label for="{{ form.titulo.id_for_label }}" class="form-label">Título</label>
+            <label for="{{ form.titulo.id_for_label }}" class="form-label" aria-label="Informe o título da Postagem">Título</label>
             {{ form.titulo|add_class:"form-control" }}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.topicos.id_for_label }}" class="form-label">Tópicos</label>
+            <label for="{{ form.topicos.id_for_label }}" class="form-label" aria-label="Informe os tópicos que a postagem se relaciona">Tópicos</label>
             {{ form.topicos|add_class:"form-select" }}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.corpo.id_for_label }}" class="form-label">Corpo</label>
+            <label for="{{ form.corpo.id_for_label }}" class="form-label" aria-label="Informe o conteúdo da postagem">Conteúdo</label>
             {{ form.corpo|add_class:"form-control" }}
         </div>
         <button type="submit" class="btn btn-dark">Publicar</button>
