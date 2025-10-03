@@ -1,8 +1,10 @@
 from django.urls import path
-from apps.core.views import PostagensRelevantesListView, PostagensRecentesListView, \
-    TopicosListView, TopicoPostagensListView, PostagemDetailView, PostagemCreateView, \
-    PostagemUpdateView, editar_comentario, deletar_comentario, responder_postagem, \
-    responder_comentario, voto_postagem, voto_comentario, deletar_postagem
+from apps.core.views.postagens import PostagensRelevantesListView, PostagensRecentesListView, \
+    PostagemDetailView, PostagemCreateView, PostagemUpdateView, responder_postagem, \
+    voto_postagem, deletar_postagem
+from apps.core.views.topicos import TopicosListView, TopicoPostagensListView 
+from apps.core.views.comentarios import editar_comentario, deletar_comentario, \
+    responder_comentario, voto_comentario
 
 urlpatterns = [
     path('', PostagensRelevantesListView.as_view(), name='postagens_relevantes_list'),
